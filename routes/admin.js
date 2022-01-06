@@ -24,7 +24,7 @@ router.post('/login', admin_controller.login_post);
 router.get("/create", passport.authenticate('jwt', { session: false }), admin_controller.blog_create_get);
 
 // POST request for creating a new blog
-router.post('/create', admin_controller.blog_create_post);
+router.post('/create', passport.authenticate('jwt', { session: false }), admin_controller.blog_create_post);
 
 // GET specific blog
 router.get('/:id', admin_controller.blog_get);
