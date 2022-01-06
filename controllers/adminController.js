@@ -1,19 +1,28 @@
 require('dotenv').config()
-var Admin = require("../models/admin");
+const Admin = require("../models/admin");
+const Post = require('../models/post');
 const jwt = require("jsonwebtoken");
 const passport = require('passport');
-//require('../config/jwt');
 const bcrypt = require("bcryptjs");
 
-// Display list of all Posts.
+// Display list of all blogs/posts
 exports.blog_list = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: display list of all blogs');
+  Post.find()
+    .sort([["date", "ascending"]])
+    .exec(function (err, results) {
+      if (err) {
+        return next(err);
+      }
+      //Successful, so send data
+      res.json({ results })
+    });
 };
 
 exports.login_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: login get');
 }
 
+// check if username/password sent from client matched DB, if yes create and send a JWT 
 exports.login_post = (req, res, next) => {
   let { username, password } = req.body;
   //check if username is in DB
@@ -47,18 +56,48 @@ exports.login_post = (req, res, next) => {
   });
 }
 
+// Display one blog/post by id
 exports.blog_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: show a single blog');
+  Post.findById(req.params.id)
+    .exec(function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      if (result.title == null) {
+        // No results.
+        const err = new Error("Blog not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Successful, so send data.
+      res.json({ result })
+    });
 }
 
-// protected route
 exports.blog_create_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: you made it! create a blog GET');
-
+  res.send('NOT IMPLEMENTED: create a blog GET (restricted route)');
 }
 
+// create a new blog/post
 exports.blog_create_post = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: create a blog POST');
+  var newPost = new Post({
+    title: req.body.title,
+    content: req.body.content,
+    author: req.user._id,
+    img: req.body.img,
+  })
+  // create new post
+  Post.create(
+    newPost,
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+      // Successful!
+      console.log('new post created!');
+      res.json({ newPost });
+    }
+  );
 }
 
 exports.blog_edit_get = (req, res, next) => {
