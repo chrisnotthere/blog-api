@@ -1,9 +1,9 @@
 require('dotenv').config()
-//var async = require("async");
-//var Post = require("../models/post");
+var Admin = require("../models/admin");
 const jwt = require("jsonwebtoken");
-
-//const { body, validationResult } = require("express-validator");
+const passport = require('passport');
+//require('../config/jwt');
+const bcrypt = require("bcryptjs");
 
 // Display list of all Posts.
 exports.blog_list = (req, res, next) => {
@@ -15,33 +15,45 @@ exports.login_get = (req, res, next) => {
 }
 
 exports.login_post = (req, res, next) => {
-  //res.send('NOT IMPLEMENTED: login post');
-
   let { username, password } = req.body;
-  //This lookup would normally be done using a database
-  if (username === "admin") {
-    if (password === "pass") { //the password compare would normally be done using bcrypt.
-      const secret = process.env.SECRET;
-      const expire = process.env.JWT_EXPIRES_IN
-      const token = jwt.sign({ username }, secret, { expiresIn: expire });
-      return res.status(200).json({
-        message: "Auth Passed",
-        token
-      })
+  //check if username is in DB
+  Admin.findOne({ username: username }, (err, user) => {
+    if (err) {
+      console.log('--there was an error--');
+      return res.status(401).json({ message: "there was an error" })
     }
-  }
-  return res.status(401).json({ message: "Auth Failed" })
-
+    if (!user) {
+      console.log('--incorrect username--');
+      return res.status(401).json({ message: "incorrect username" })
+    }
+    //check if password in DB matches
+    bcrypt.compare(password, user.password, (err, response) => {
+      if (password === user.password) {
+        //passwords match, create token and send to client
+        console.log('--passwords match!--');
+        const secret = process.env.SECRET;
+        const expire = process.env.JWT_EXPIRES_IN
+        const token = jwt.sign({ username }, secret, { expiresIn: expire });
+        return res.status(200).json({
+          message: "Auth Passed",
+          token
+        })
+      } else {
+        // passwords do not match!
+        console.log('--passwords do not match!--');
+        return res.status(401).json({ message: "passwords do not match!" })
+      }
+    });
+  });
 }
 
 exports.blog_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: show a single blog');
 }
 
+// protected route
 exports.blog_create_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: you made it! create a blog GET');
-
-  //make this a protected route with passportJWT...
 
 }
 
