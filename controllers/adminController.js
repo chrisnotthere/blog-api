@@ -103,19 +103,19 @@ exports.blog_create_post = (req, res, next) => {
 exports.blog_edit_get = (req, res, next) => {
   //return the blog
   Post.findById(req.params.id)
-  .exec(function (err, result) {
-    if (err) {
-      return next(err);
-    }
-    if (result.title == null) {
-      // No results.
-      const err = new Error("Blog not found");
-      err.status = 404;
-      return next(err);
-    }
-    // Successful, so send data.
-    res.json({ result })
-  });
+    .exec(function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      if (result.title == null) {
+        // No results.
+        const err = new Error("Blog not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Successful, so send data.
+      res.json({ result })
+    });
 }
 
 // EDIT (PUT) blog
@@ -145,12 +145,40 @@ exports.blog_edit_put = (req, res, next) => {
 }
 
 exports.blog_delete_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: delete blog GET');
+  //return the blog
+  Post.findById(req.params.id)
+    .exec(function (err, result) {
+      if (err) {
+        return next(err);
+      }
+      if (result.title == null) {
+        // No results.
+        const err = new Error("Blog not found");
+        err.status = 404;
+        return next(err);
+      }
+      // Successful, so send data.
+      res.json({ result })
+    });
 }
 
 // DELETE a blog
 exports.blog_delete_delete = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: delete blog DELETE');
+  Post.findByIdAndRemove(req.params.id, function deleteproduct(err) {
+    if (err) {
+      return next(err);
+    }
+    // Success, display all blogs to show that one has been removed
+    Post.find()
+      .sort([["date", "ascending"]])
+      .exec(function (err, results) {
+        if (err) {
+          return next(err);
+        }
+        //display all blogs in db
+        res.json({ results })
+      });
+  });
 }
 
 // DELETE a comment
