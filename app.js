@@ -1,10 +1,11 @@
 require('dotenv').config()
 const createError = require('http-errors');
 const express = require('express');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
+var compression = require('compression');
+const helmet = require('helmet');
 
 //Set up mongoose connection
 const mongoose = require("mongoose");
@@ -27,7 +28,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
-//app.use(cookieParser()); //do we need this??
+app.use(compression()); //Compress all routes
+app.use(helmet()); //helps protet against vulnerabilites
 
 app.use('/', indexRouter);
 app.use('/blog', blogRouter);
