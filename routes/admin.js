@@ -26,9 +26,6 @@ router.get("/create", passport.authenticate('jwt', { session: false }), admin_co
 // POST request for creating a new blog
 router.post('/create', passport.authenticate('jwt', { session: false }), admin_controller.blog_create_post);
 
-// GET specific blog
-router.get('/:id', admin_controller.blog_get);
-
 // GET request for editing a blog
 router.get('/edit/:id',passport.authenticate('jwt', { session: false }),  admin_controller.blog_edit_get);
 
@@ -43,5 +40,8 @@ router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), a
 
 // DELETE a comment - no GET required, the comment will be removed with no confirmation
 router.delete('/comment/:id', passport.authenticate('jwt', { session: false }), admin_controller.comment_delete);
+
+// GET specific blog
+router.get('/:id', admin_controller.blog_get);
 
 module.exports = router;
