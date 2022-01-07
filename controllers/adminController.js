@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const passport = require('passport');
 const bcrypt = require("bcryptjs");
 
-// Display list of all blogs/posts
+// display list of all blogs/posts
 exports.blog_list = (req, res, next) => {
   Post.find()
     .sort([["date", "ascending"]])
@@ -22,7 +22,7 @@ exports.login_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: login get');
 }
 
-// check if username/password sent from client matched DB, if yes create and send a JWT 
+// check login credentials, create and send a JWT if match found in DB
 exports.login_post = (req, res, next) => {
   let { username, password } = req.body;
   //check if username is in DB
@@ -56,7 +56,7 @@ exports.login_post = (req, res, next) => {
   });
 }
 
-// Display one blog/post by id
+// display one blog/post by id
 exports.blog_get = (req, res, next) => {
   Post.findById(req.params.id)
     .exec(function (err, result) {
@@ -78,7 +78,7 @@ exports.blog_create_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: create a blog GET (restricted route)');
 }
 
-// create a new blog/post
+// CREATE a new blog/post
 exports.blog_create_post = (req, res, next) => {
   var newPost = new Post({
     title: req.body.title,
@@ -101,21 +101,59 @@ exports.blog_create_post = (req, res, next) => {
 }
 
 exports.blog_edit_get = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: edit a blog GET');
+  //return the blog
+  Post.findById(req.params.id)
+  .exec(function (err, result) {
+    if (err) {
+      return next(err);
+    }
+    if (result.title == null) {
+      // No results.
+      const err = new Error("Blog not found");
+      err.status = 404;
+      return next(err);
+    }
+    // Successful, so send data.
+    res.json({ result })
+  });
 }
 
+// EDIT (PUT) blog
 exports.blog_edit_put = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: edit a blog PUT');
+  //create new blog/post object
+  var newPost = new Post({
+    title: req.body.title,
+    content: req.body.content,
+    author: req.user._id,
+    img: req.body.img,
+    _id: req.params.id
+  })
+  // find the blog by id and replace with newPost object
+  Post.findByIdAndUpdate(
+    req.params.id,
+    newPost,
+    {},
+    function (err) {
+      if (err) {
+        return next(err);
+      }
+      // Successful - redirect to product detail page.
+      console.log('post has been updated!');
+      res.json({ newPost });
+    }
+  );
 }
 
 exports.blog_delete_get = (req, res, next) => {
   res.send('NOT IMPLEMENTED: delete blog GET');
 }
 
+// DELETE a blog
 exports.blog_delete_delete = (req, res, next) => {
   res.send('NOT IMPLEMENTED: delete blog DELETE');
 }
 
+// DELETE a comment
 exports.comment_delete = (req, res, next) => {
   res.send('NOT IMPLEMENTED: delete comment');
 }
