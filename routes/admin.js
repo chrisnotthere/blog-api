@@ -12,7 +12,7 @@ var admin_controller = require('../controllers/adminController');
 /// admin ROUTES ///
 
 // GET all blogs for admin home page.
-router.get('/', admin_controller.blog_list);
+router.get('/', passport.authenticate('jwt', { session: false }), admin_controller.blog_list);
 
 // GET request for admin login
 router.get('/login', admin_controller.login_get);
@@ -42,6 +42,6 @@ router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), a
 router.delete('/comment/:postid/:commentid', passport.authenticate('jwt', { session: false }), (admin_controller.comment_delete));
 
 // GET specific blog
-router.get('/:id', admin_controller.blog_get);
+router.get('/:id', passport.authenticate('jwt', { session: false }), admin_controller.blog_get);
 
 module.exports = router;
