@@ -38,8 +38,8 @@ router.get('/delete/:id', passport.authenticate('jwt', { session: false }), admi
 // DELETE a blog
 router.delete('/delete/:id', passport.authenticate('jwt', { session: false }), admin_controller.blog_delete_delete);
 
-// DELETE a comment - no GET required, the comment will be removed with no confirmation
-router.delete('/comment/:id', passport.authenticate('jwt', { session: false }), admin_controller.comment_delete);
+// DELETE a comment 
+router.delete('/comment/:postid/:commentid', passport.authenticate('jwt', { session: false }), (admin_controller.comment_delete));
 
 // GET specific blog
 router.get('/:id', admin_controller.blog_get);

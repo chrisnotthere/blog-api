@@ -183,5 +183,17 @@ exports.blog_delete_delete = (req, res, next) => {
 
 // DELETE a comment
 exports.comment_delete = (req, res, next) => {
-  res.send('NOT IMPLEMENTED: delete comment');
+  //get blog from id
+  Post.findById(req.params.postid)
+    .sort([["date", "ascending"]])
+    .exec(function (err, post) {
+      if (err) {
+        return next(err);
+      }
+      //find comment (sub-document) and remove 
+      const comment = post.comments.find(comment => comment._id.toString() === req.params.commentid);
+      comment.remove();
+      post.save();
+      res.json(post);
+    });
 }
