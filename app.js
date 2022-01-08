@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 var compression = require('compression');
 const helmet = require('helmet');
+const cors = require('cors');
 
 //Set up mongoose connection
 const mongoose = require("mongoose");
@@ -30,6 +31,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
+app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/blog', blogRouter);
