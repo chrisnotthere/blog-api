@@ -42,6 +42,7 @@ exports.login_post = async (req, res, next) => {
     }
     //check if password in DB matches
     bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
+      console.log(user.password);
       if (hashedSentPassword === user.password) {
         //passwords match, create token and send to client
         console.log('--passwords match!--');
