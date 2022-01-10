@@ -25,6 +25,12 @@ exports.login_get = (req, res, next) => {
 // check login credentials, create and send a JWT if match found in DB
 exports.login_post = async (req, res, next) => {
   let { username, password } = req.body;
+
+  //we need to hash the req.password and then compare with db password
+  const hashedSentPassword = await bcrypt.hash(password, 10);
+  console.log(hashedSentPassword);
+  console.log(user.password);
+
   //check if username is in DB
   Admin.findOne({ username: username }, (err, user) => {
     if (err) {
@@ -35,12 +41,6 @@ exports.login_post = async (req, res, next) => {
       console.log('--incorrect username--');
       return res.status(401).json({ message: "incorrect username" })
     }
-
-    //we need to hash the req.password and then compare with db password
-    const hashedSentPassword = await bcrypt.hash(password, 10);
-    console.log(hashedSentPassword);
-    console.log(user.password);
-
     //check if password in DB matches
     bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
       if (hashedSentPassword === user.password) {
