@@ -38,6 +38,8 @@ exports.login_post = (req, res, next) => {
 
     //we need to hash the req.password and then compare with db password
     const hashedSentPassword = bcrypt.hash(password, 10);
+    console.log(hashedSentPassword);
+    console.log(user.password);
 
     //check if password in DB matches
     bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
