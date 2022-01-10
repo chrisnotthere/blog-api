@@ -32,6 +32,7 @@ app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
 app.use(cors());
+app.options('*', cors());
 
 app.use('/', indexRouter);
 app.use('/blog', blogRouter);
