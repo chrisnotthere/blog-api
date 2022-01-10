@@ -26,9 +26,9 @@ exports.login_get = (req, res, next) => {
 exports.login_post = async (req, res, next) => {
   let { username, password } = req.body;
 
-  //we need to hash the req.password and then compare with db password
-  const hashedSentPassword = await bcrypt.hash(password, 10);
-  console.log(hashedSentPassword);
+  // //we need to hash the req.password and then compare with db password
+  // const hashedSentPassword = await bcrypt.hash(password, 10);
+  console.log(password);
 
   //check if username is in DB
   Admin.findOne({ username: username }, (err, user) => {
@@ -40,10 +40,34 @@ exports.login_post = async (req, res, next) => {
       console.log('--incorrect username--');
       return res.status(401).json({ message: "incorrect username" })
     }
-    //check if password in DB matches
-    bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
+    // //check if password in DB matches
+    // bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
+    //   console.log(user.password);
+    //   if (hashedSentPassword === user.password) {
+    //     //passwords match, create token and send to client
+    //     console.log('--passwords match!--');
+    //     const secret = process.env.SECRET;
+    //     const expire = process.env.JWT_EXPIRES_IN
+    //     const token = jwt.sign({ username }, secret, { expiresIn: expire });
+    //     return res.status(200).json({
+    //       message: "Auth Passed",
+    //       token
+    //     })
+    //   } else {
+    //     // passwords do not match!
+    //     console.log('--passwords do not match!--');
+    //     return res.status(401).json({ message: "passwords do not match!" })
+    //   }
+    // });
+
+    bcrypt.compare(password, user.password, (err, res) => {
       console.log(user.password);
-      if (hashedSentPassword === user.password) {
+      if (err){
+        // handle error
+        console.log('--there was an error!--');
+        return res.status(500).json({ message: "there was an error!" })
+      }
+      if (res) {
         //passwords match, create token and send to client
         console.log('--passwords match!--');
         const secret = process.env.SECRET;
@@ -52,7 +76,7 @@ exports.login_post = async (req, res, next) => {
         return res.status(200).json({
           message: "Auth Passed",
           token
-        })
+        })        
       } else {
         // passwords do not match!
         console.log('--passwords do not match!--');
