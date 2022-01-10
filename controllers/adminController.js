@@ -23,7 +23,7 @@ exports.login_get = (req, res, next) => {
 }
 
 // check login credentials, create and send a JWT if match found in DB
-exports.login_post = (req, res, next) => {
+exports.login_post = async (req, res, next) => {
   let { username, password } = req.body;
   //check if username is in DB
   Admin.findOne({ username: username }, (err, user) => {
@@ -37,7 +37,7 @@ exports.login_post = (req, res, next) => {
     }
 
     //we need to hash the req.password and then compare with db password
-    const hashedSentPassword = bcrypt.hash(password, 10);
+    const hashedSentPassword = await bcrypt.hash(password, 10);
     console.log(hashedSentPassword);
     console.log(user.password);
 
