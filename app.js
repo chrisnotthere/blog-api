@@ -33,7 +33,7 @@ app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
 app.use(cors());
 app.use(function(req, res, next) {
-  //res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, POST, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "x-requested-with, Content-Type, origin, authorization, Accepts, accept, client-security-token, access-control-allow-headers");
