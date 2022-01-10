@@ -60,14 +60,14 @@ exports.login_post = async (req, res, next) => {
     //   }
     // });
 
-    bcrypt.compare(password, user.password, (err, res) => {
+    bcrypt.compare(password, user.password, (err, response) => {
       console.log(user.password);
       if (err){
         // handle error
         console.log('--there was an error!--');
         return res.status(500).json({ message: "there was an error!" })
       }
-      if (res) {
+      if (response) {
         //passwords match, create token and send to client
         console.log('--passwords match!--');
         const secret = process.env.SECRET;
