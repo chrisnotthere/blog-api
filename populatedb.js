@@ -76,6 +76,16 @@ function createadmins(cb) {
           callback
         );
       },
+      function (callback) {
+        adminCreate(
+          "test",
+          "admin",
+          "123",
+          "hello@yahoo.co.uk",
+          "123",
+          callback
+        );
+      },
     ],
     // optional callback
     cb
