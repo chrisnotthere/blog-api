@@ -35,9 +35,13 @@ exports.login_post = (req, res, next) => {
       console.log('--incorrect username--');
       return res.status(401).json({ message: "incorrect username" })
     }
+
+    //we need to hash the req.password and then compare with db password
+    const hashedSentPassword = await bcrypt.hash(password, 10);
+
     //check if password in DB matches
-    bcrypt.compare(password, user.password, (err, response) => {
-      if (password === user.password) {
+    bcrypt.compare(hashedSentPassword, user.password, (err, response) => {
+      if (hashedSentPassword === user.password) {
         //passwords match, create token and send to client
         console.log('--passwords match!--');
         const secret = process.env.SECRET;
