@@ -29,7 +29,6 @@ exports.login_post = async (req, res, next) => {
   //we need to hash the req.password and then compare with db password
   const hashedSentPassword = await bcrypt.hash(password, 10);
   console.log(hashedSentPassword);
-  console.log(user.password);
 
   //check if username is in DB
   Admin.findOne({ username: username }, (err, user) => {
