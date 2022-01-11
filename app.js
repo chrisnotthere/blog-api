@@ -40,7 +40,7 @@ app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
 //app.use(cors());
-const whitelist = ['http://localhost:30000', 'http://otherwebsite.com'];
+const whitelist = ['http://localhost:3000', 'http://otherwebsite.com'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
