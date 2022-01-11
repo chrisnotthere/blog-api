@@ -198,8 +198,13 @@ exports.comment_delete = (req, res, next) => {
       }
       //find comment (sub-document) and remove 
       const comment = post.comments.find(comment => comment._id.toString() === req.params.commentid);
-      comment.remove();
-      post.save();
-      res.json(post);
+      if(comment) {
+        comment.remove();
+        post.save();
+        res.json(post);
+      } else {
+        return res.status(500).json({ message: "there was an error!" })
+      }
+
     });
 }
