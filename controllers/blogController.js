@@ -1,7 +1,4 @@
-//var async = require("async");
 var Post = require("../models/post");
-
-//const { body, validationResult } = require("express-validator");
 
 // Display list of all Posts.
 exports.blog_list = (req, res, next) => {
@@ -13,8 +10,7 @@ exports.blog_list = (req, res, next) => {
         return next(err);
       }
       //Successful, so send data
-      res.json({ results })
-
+      res.status(200).json({ results })
     });
 };
 
