@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
-//app.use(cors());
+app.use(cors());
 const whitelist = ['http://localhost:3000', 'http://otherwebsite.com'];
 const corsOptions = {
   credentials: true, // This is important.
@@ -49,7 +49,7 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
   }
 }
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 app.use('/', indexRouter);
 app.use('/blog', blogRouter);
