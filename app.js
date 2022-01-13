@@ -8,12 +8,9 @@ var compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
 
-//Set up mongoose connection
-const mongoose = require("mongoose");
-const mongoDB = process.env.MONGODB;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// Set up mongoose connection
+require('./config/mongoConfig');
+// require('./config/mongoConfigTesting');  //uses mongodb-memory-server for testing purposes
 
 const indexRouter = require('./routes/index');
 const blogRouter = require('./routes/blog');
@@ -34,8 +31,8 @@ app.set('view engine', 'ejs');
 // });
 
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protet against vulnerabilites
