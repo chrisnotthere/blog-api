@@ -25,10 +25,10 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
-app.use(helmet()); //helps protet against vulnerabilites
+app.use(helmet()); //helps protect against vulnerabilities
 //app.use(cors());
 
-const whitelist = ['http://localhost:3000', 'http://otherwebsite.com'];
+const whitelist = ['http://localhost:3000', 'https://chrisnotthere.github.io/blog-client/'];
 const corsOptions = {
   credentials: true, // This is important.
   origin: (origin, callback) => {
