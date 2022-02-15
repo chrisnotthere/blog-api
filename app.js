@@ -28,10 +28,10 @@ app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protect against vulnerabilities
 //app.use(cors());
 
-const whitelist = ['http://localhost:3000', 'https://chrisnotthere.github.io/blog-client/'];
+// const whitelist = ['http://localhost:3000', 'https://chrisnotthere.github.io/blog-client/'];
 const corsOptions = {
   credentials: true, // This is important.
-  origin:'*', 
+  origin:'https://chrisnotthere.github.io/blog-client/', 
   optionSuccessStatus:200,
   // origin: (origin, callback) => {
   //   if(whitelist.includes(origin))
