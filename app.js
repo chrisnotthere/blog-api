@@ -26,18 +26,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json())
 app.use(compression()); //Compress all routes
 app.use(helmet()); //helps protect against vulnerabilities
-//app.use(cors());
 
-// const whitelist = ['http://localhost:3000', 'https://chrisnotthere.github.io/blog-client/'];
 const corsOptions = {
   credentials: true, // This is important.
-  origin:'https://chrisnotthere.github.io', 
+  // origin:'https://chrisnotthere.github.io', 
+  origin:'https://localhost', 
   optionSuccessStatus:200,
-  // origin: (origin, callback) => {
-  //   if(whitelist.includes(origin))
-  //     return callback(null, true)
-  //     callback(new Error('Not allowed by CORS'));
-  // }
 }
 app.use(cors(corsOptions));
 
