@@ -31,7 +31,7 @@ app.use(helmet()); //helps protect against vulnerabilities
 // const whitelist = ['http://localhost:3000', 'https://chrisnotthere.github.io/blog-client/'];
 const corsOptions = {
   credentials: true, // This is important.
-  origin:'https://chrisnotthere.github.io/', 
+  origin:'https://chrisnotthere.github.io/blog-client/', 
   optionSuccessStatus:200,
   // origin: (origin, callback) => {
   //   if(whitelist.includes(origin))
