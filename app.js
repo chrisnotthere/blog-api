@@ -30,7 +30,8 @@ app.use(helmet()); //helps protect against vulnerabilities
 const corsOptions = {
   credentials: true, // This is important.
   // origin:'https://chrisnotthere.github.io', 
-  origin:'http://localhost:3000/blog-client', 
+  // origin:'http://localhost:3000/blog-client', 
+  origin: '*',
   optionSuccessStatus:200,
 }
 app.use(cors(corsOptions));
