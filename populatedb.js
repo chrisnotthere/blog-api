@@ -82,7 +82,7 @@ function createadmins(cb) {
           "admin",
           "123",
           "hello@yahoo.co.uk",
-          "123",
+          process.env.USER_PASSWORD,
           callback
         );
       },
@@ -103,19 +103,19 @@ function createposts(cb) {
           "Blah blah blah blah blah blah.Eggs have a hard shell of calcium carbonate enclosing a liquid white, a single yolk (or an occasional double yolk)and an air cell.",
           admins[0],
           true,
-          "blog01.jpg",
+          "https://a-z-animals.com/media/2019/11/Duck-header.jpg",
           [],
           callback
         );
       },
       function (callback) {
         postCreate(
-          "The joys of asparagus.",
-          1641121503433,
-          "Asparagus, or garden asparagus, folk name sparrow grass, scientific name Asparagus officinalis, is a perennial flowering plant species in the genus Asparagus. Its young shoots are used as a spring vegetable. It was once classified in the lily family, like the related Allium species, onions and garlic.",
+          "Test blog.",
+          1649121503433,
+          "Asparagus, or garden asparagus, folk name sparrow grass, scientific name Asparagus officinalis, is a perennial flowering plant species in the genus Asparagus. Its young shoots are used as a spring vegetable. It was once classified in the lily family, like the related Allium species, onions and garlic. Asparagus, or garden asparagus, folk name sparrow grass, scientific name Asparagus officinalis, is a perennial flowering plant species in the genus Asparagus. Its young shoots are used as a spring vegetable. It was once classified in the lily family, like the related Allium species, onions and garlic.",
           admins[1],
           true,
-          "asparagusPic.png",
+          "https://www.testim.io/wp-content/uploads/2019/11/Testim-What-is-a-Test-Environment_-A-Guide-to-Managing-Your-Testing-A.png",
           [],
           callback
         );
