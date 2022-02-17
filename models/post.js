@@ -24,7 +24,7 @@ const PostSchema = new Schema({
   content: { type: String, required: true },
   author: { type: Schema.Types.ObjectId, ref: "Admin", required: true },
   published: { default: true, type: Boolean },
-  img: { default: "blogpic.png", type: String },
+  img: { type: String },
   //comments: { default: [], type: Array },
   comments: {
     type: [Comment]
