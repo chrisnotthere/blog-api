@@ -4,7 +4,7 @@ var Post = require("../models/post");
 exports.blog_list = (req, res, next) => {
 
   Post.find()
-    .sort([["date", "ascending"]])
+    .sort([["date", "descending"]])
     .exec(function (err, results) {
       if (err) {
         return next(err);
